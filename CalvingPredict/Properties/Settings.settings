@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CalvingPredict.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Date_interval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="Host" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtp.gmail.com</Value>
+    </Setting>
+    <Setting Name="UserName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">1960tix@gmail.com</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">jcomkfnuzmtnkktt</Value>
+    </Setting>
+    <Setting Name="emails" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">1960tix@gmail.com</Value>
+    </Setting>
+    <Setting Name="email_sender" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">info@cattlescan.ca</Value>
+    </Setting>
+    <Setting Name="email_subject" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Predict CattleScan</Value>
+    </Setting>
+    <Setting Name="InputDataSoure" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">database</Value>
+    </Setting>
+    <Setting Name="PredictInterval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">21</Value>
+    </Setting>
+    <Setting Name="FactorMax" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">40</Value>
+    </Setting>
+    <Setting Name="TimeIntervalPredict" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

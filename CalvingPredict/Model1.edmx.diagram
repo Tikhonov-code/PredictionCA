@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d900a4ef073942448b041768683cbe1d" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="DB_A4A060_csModel.MeasData" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4A060_csModel.Prediction" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4A060_csModel.Bolu" Width="1.5" PointX="5.125" PointY="0.875" />
+        <EntityTypeShape EntityType="DB_A4A060_csModel.FarmCow" Width="1.5" PointX="10" PointY="1" />
+        <EntityTypeShape EntityType="DB_A4A060_csModel.Farm" Width="1.5" PointX="7.625" PointY="1" />
+        <EntityTypeShape EntityType="DB_A4A060_csModel.Log" Width="1.5" PointX="0.75" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

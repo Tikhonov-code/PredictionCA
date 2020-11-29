@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_A4A060_csModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bolus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bolus_id" Type="int" Nullable="false" />
+          <Property Name="animal_id" Type="int" />
+          <Property Name="AnimalInfo" Type="nvarchar" MaxLength="500" />
+          <Property Name="Age_Lactation" Type="int" />
+          <Property Name="Current_Stage_Of_Lactation" Type="nvarchar" MaxLength="10" />
+          <Property Name="Health_Concerns_Illness_History" Type="nvarchar" MaxLength="500" />
+          <Property Name="Overall_Health" Type="nvarchar" MaxLength="10" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="500" />
+          <Property Name="Date_of_Birth" Type="datetime" />
+          <Property Name="Calving_Due_Date" Type="datetime" />
+          <Property Name="Actual_Calving_Date" Type="datetime" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="current_lactation" Type="int" />
+        </EntityType>
+        <EntityType Name="FarmCows">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AspNetUser_ID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Bolus_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Farms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="350" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="350" />
+          <Property Name="GeoPosition" Type="geography" />
+          <Property Name="AspNetUser_Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="Phones" Type="nvarchar(max)" />
+          <Property Name="Emails" Type="nvarchar(max)" />
+          <Property Name="PhoneStatus" Type="nvarchar(max)" />
+          <Property Name="EmailStatus" Type="nvarchar(max)" />
+          <Property Name="StationId" Type="int" />
+          <Property Name="vas_dairy_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="128" />
+          <Property Name="page" Type="nvarchar" MaxLength="300" />
+          <Property Name="function_query" Type="nvarchar" MaxLength="250" />
+          <Property Name="error" Type="nvarchar" MaxLength="300" />
+          <Property Name="note" Type="nvarchar" MaxLength="300" />
+          <Property Name="datestamp" Type="datetime2" Precision="7" />
+          <Property Name="recipient" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="MeasData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="bolus_id" Type="int" Nullable="false" />
+          <Property Name="animal_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="temperature" Type="float" Nullable="false" />
+          <Property Name="bolus_timestamp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="bolus_full_date" Type="datetime2" Precision="7" />
+          <Property Name="base_station_id" Type="int" Nullable="false" />
+          <Property Name="is_average" Type="bit" Nullable="false" />
+          <Property Name="raw" Type="varchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="Predictions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bolus_id" Type="int" Nullable="false" />
+          <Property Name="analysis_date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="prob_calving" Type="float" Nullable="false" />
+          <Property Name="prop_missing" Type="float" Nullable="false" />
+          <Property Name="confidence" Type="float" Nullable="false" />
+          <Property Name="date_stamp" Type="datetime2" Precision="7" />
+        </EntityType>
+        <Function Name="SP_Farm_GetNameByAnimalID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="animal_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Farm_GetNameByBolus_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bolus_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Predict_AnimalList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dt" Type="datetime" Mode="In" />
+          <Parameter Name="PredictInterval" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Predict_GetGapsInInterval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bolus_id" Type="int" Mode="In" />
+          <Parameter Name="dt" Type="datetime2" Mode="In" />
+        </Function>
+        <Function Name="SP_Predict_GetGapsStatByAnimalID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bolus_id" Type="int" Mode="In" />
+          <Parameter Name="dt" Type="datetime2" Mode="In" />
+        </Function>
+        <Function Name="SP_Predict_GetTempByAnimalID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bolus_id" Type="int" Mode="In" />
+          <Parameter Name="dt" Type="datetime2" Mode="In" />
+        </Function>
+        <EntityContainer Name="DB_A4A060_csModelStoreContainer">
+          <EntitySet Name="Bolus" EntityType="Self.Bolus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FarmCows" EntityType="Self.FarmCows" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Farms" EntityType="Self.Farms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeasData" EntityType="Self.MeasData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Predictions" EntityType="Self.Predictions" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_A4A060_csModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MeasData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bolus_id" Type="Int32" Nullable="false" />
+          <Property Name="animal_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="temperature" Type="Double" Nullable="false" />
+          <Property Name="bolus_timestamp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bolus_full_date" Type="DateTime" Precision="7" />
+          <Property Name="base_station_id" Type="Int32" Nullable="false" />
+          <Property Name="is_average" Type="Boolean" Nullable="false" />
+          <Property Name="raw" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Prediction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bolus_id" Type="Int32" Nullable="false" />
+          <Property Name="analysis_date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="prob_calving" Type="Double" Nullable="false" />
+          <Property Name="prop_missing" Type="Double" Nullable="false" />
+          <Property Name="confidence" Type="Double" Nullable="false" />
+          <Property Name="date_stamp" Type="DateTime" Precision="7" />
+        </EntityType>
+        <EntityContainer Name="DB_A4A060_csEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MeasDatas" EntityType="Self.MeasData" />
+          <EntitySet Name="Predictions" EntityType="Self.Prediction" />
+          <EntitySet Name="Bolus" EntityType="DB_A4A060_csModel.Bolu" />
+          <EntitySet Name="FarmCows" EntityType="DB_A4A060_csModel.FarmCow" />
+          <EntitySet Name="Farms" EntityType="DB_A4A060_csModel.Farm" />
+          <FunctionImport Name="SP_Farm_GetNameByAnimalID" ReturnType="Collection(DB_A4A060_csModel.SP_Farm_GetNameByAnimalID_Result)">
+          <Parameter Name="animal_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Logs" EntityType="DB_A4A060_csModel.Log" />
+          <FunctionImport Name="SP_Predict_AnimalList" ReturnType="Collection(DB_A4A060_csModel.SP_Predict_AnimalList_Result)">
+            <Parameter Name="dt" Mode="In" Type="DateTime" />
+            <Parameter Name="PredictInterval" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Predict_GetTempByAnimalID" ReturnType="Collection(DB_A4A060_csModel.SP_Predict_GetTempByAnimalID_Result)">
+            <Parameter Name="bolus_id" Mode="In" Type="Int32" />
+            <Parameter Name="dt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Predict_GetGapsInInterval" ReturnType="Collection(DB_A4A060_csModel.SP_Predict_GetGapsInInterval_Result)">
+            <Parameter Name="bolus_id" Mode="In" Type="Int32" />
+            <Parameter Name="dt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Predict_GetGapsStatByAnimalID" ReturnType="Collection(DB_A4A060_csModel.SP_Predict_GetGapsStatByAnimalID_Result)">
+            <Parameter Name="bolus_id" Mode="In" Type="Int32" />
+            <Parameter Name="dt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Farm_GetNameByBolus_ID" ReturnType="Collection(DB_A4A060_csModel.SP_Farm_GetNameByBolus_ID_Result)">
+            <Parameter Name="bolus_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Bolu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bolus_id" Type="Int32" Nullable="false" />
+          <Property Name="animal_id" Type="Int32" />
+          <Property Name="AnimalInfo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Age_Lactation" Type="Int32" />
+          <Property Name="Current_Stage_Of_Lactation" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Health_Concerns_Illness_History" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Overall_Health" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Date_of_Birth" Type="DateTime" Precision="3" />
+          <Property Name="Calving_Due_Date" Type="DateTime" Precision="3" />
+          <Property Name="Actual_Calving_Date" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="current_lactation" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FarmCow">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AspNetUser_ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Bolus_ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Farm">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="Owner" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="GeoPosition" Type="Geography" />
+          <Property Name="AspNetUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Phones" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Emails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StationId" Type="Int32" />
+          <Property Name="vas_dairy_id" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="SP_Farm_GetNameByAnimalID_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="350" />
+        </ComplexType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="page" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="function_query" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="error" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="note" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="datestamp" Type="DateTime" Precision="7" />
+          <Property Name="recipient" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="SP_Predict_AnimalList_Result">
+          <Property Type="Int32" Name="bolus_id" Nullable="false" />
+          <Property Type="Int32" Name="animal_id" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Predict_GetTempByAnimalID_Result">
+          <Property Type="Double" Name="MaxValue" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_Predict_GetGapsInInterval_Result">
+          <Property Type="Int32" Name="factor" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_Predict_GetGapsStatByAnimalID_Result">
+          <Property Type="Double" Name="gaps" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Farm_GetNameByBolus_ID_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="350" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_A4A060_csModelStoreContainer" CdmEntityContainer="DB_A4A060_csEntities">
+          <EntitySetMapping Name="MeasDatas">
+            <EntityTypeMapping TypeName="DB_A4A060_csModel.MeasData">
+              <MappingFragment StoreEntitySet="MeasData">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="bolus_id" ColumnName="bolus_id" />
+                <ScalarProperty Name="animal_id" ColumnName="animal_id" />
+                <ScalarProperty Name="temperature" ColumnName="temperature" />
+                <ScalarProperty Name="bolus_timestamp" ColumnName="bolus_timestamp" />
+                <ScalarProperty Name="bolus_full_date" ColumnName="bolus_full_date" />
+                <ScalarProperty Name="base_station_id" ColumnName="base_station_id" />
+                <ScalarProperty Name="is_average" ColumnName="is_average" />
+                <ScalarProperty Name="raw" ColumnName="raw" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Predictions">
+            <EntityTypeMapping TypeName="DB_A4A060_csModel.Prediction">
+              <MappingFragment StoreEntitySet="Predictions">
+                <ScalarProperty Name="date_stamp" ColumnName="date_stamp" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="bolus_id" ColumnName="bolus_id" />
+                <ScalarProperty Name="analysis_date" ColumnName="analysis_date" />
+                <ScalarProperty Name="prob_calving" ColumnName="prob_calving" />
+                <ScalarProperty Name="prop_missing" ColumnName="prop_missing" />
+                <ScalarProperty Name="confidence" ColumnName="confidence" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bolus">
+            <EntityTypeMapping TypeName="DB_A4A060_csModel.Bolu">
+              <MappingFragment StoreEntitySet="Bolus">
+                <ScalarProperty Name="current_lactation" ColumnName="current_lactation" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="Actual_Calving_Date" ColumnName="Actual_Calving_Date" />
+                <ScalarProperty Name="Calving_Due_Date" ColumnName="Calving_Due_Date" />
+                <ScalarProperty Name="Date_of_Birth" ColumnName="Date_of_Birth" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Overall_Health" ColumnName="Overall_Health" />
+                <ScalarProperty Name="Health_Concerns_Illness_History" ColumnName="Health_Concerns_Illness_History" />
+                <ScalarProperty Name="Current_Stage_Of_Lactation" ColumnName="Current_Stage_Of_Lactation" />
+                <ScalarProperty Name="Age_Lactation" ColumnName="Age_Lactation" />
+                <ScalarProperty Name="AnimalInfo" ColumnName="AnimalInfo" />
+                <ScalarProperty Name="animal_id" ColumnName="animal_id" />
+                <ScalarProperty Name="bolus_id" ColumnName="bolus_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FarmCows">
+            <EntityTypeMapping TypeName="DB_A4A060_csModel.FarmCow">
+              <MappingFragment StoreEntitySet="FarmCows">
+                <ScalarProperty Name="Bolus_ID" ColumnName="Bolus_ID" />
+                <ScalarProperty Name="AspNetUser_ID" ColumnName="AspNetUser_ID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Farms">
+            <EntityTypeMapping TypeName="DB_A4A060_csModel.Farm">
+              <MappingFragment StoreEntitySet="Farms">
+                <ScalarProperty Name="vas_dairy_id" ColumnName="vas_dairy_id" />
+                <ScalarProperty Name="StationId" ColumnName="StationId" />
+                <ScalarProperty Name="EmailStatus" ColumnName="EmailStatus" />
+                <ScalarProperty Name="PhoneStatus" ColumnName="PhoneStatus" />
+                <ScalarProperty Name="Emails" ColumnName="Emails" />
+                <ScalarProperty Name="Phones" ColumnName="Phones" />
+                <ScalarProperty Name="AspNetUser_Id" ColumnName="AspNetUser_Id" />
+                <ScalarProperty Name="GeoPosition" ColumnName="GeoPosition" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Farm_GetNameByAnimalID" FunctionName="DB_A4A060_csModel.Store.SP_Farm_GetNameByAnimalID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A4A060_csModel.SP_Farm_GetNameByAnimalID_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="DB_A4A060_csModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="recipient" ColumnName="recipient" />
+                <ScalarProperty Name="datestamp" ColumnName="datestamp" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="error" ColumnName="error" />
+                <ScalarProperty Name="function_query" ColumnName="function_query" />
+                <ScalarProperty Name="page" ColumnName="page" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Predict_AnimalList" FunctionName="DB_A4A060_csModel.Store.SP_Predict_AnimalList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A4A060_csModel.SP_Predict_AnimalList_Result">
+                <ScalarProperty Name="bolus_id" ColumnName="bolus_id" />
+                <ScalarProperty Name="animal_id" ColumnName="animal_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Predict_GetTempByAnimalID" FunctionName="DB_A4A060_csModel.Store.SP_Predict_GetTempByAnimalID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A4A060_csModel.SP_Predict_GetTempByAnimalID_Result">
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Predict_GetGapsInInterval" FunctionName="DB_A4A060_csModel.Store.SP_Predict_GetGapsInInterval">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A4A060_csModel.SP_Predict_GetGapsInInterval_Result">
+                <ScalarProperty Name="factor" ColumnName="factor" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Predict_GetGapsStatByAnimalID" FunctionName="DB_A4A060_csModel.Store.SP_Predict_GetGapsStatByAnimalID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A4A060_csModel.SP_Predict_GetGapsStatByAnimalID_Result">
+                <ScalarProperty Name="gaps" ColumnName="gaps" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Farm_GetNameByBolus_ID" FunctionName="DB_A4A060_csModel.Store.SP_Farm_GetNameByBolus_ID" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A4A060_csModel.SP_Farm_GetNameByBolus_ID_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

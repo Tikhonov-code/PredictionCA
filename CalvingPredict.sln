@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1259
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalvingPredict", "CalvingPredict\CalvingPredict.csproj", "{77D9D3E4-0334-4CDD-8A9B-3AE3C6CB57D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77D9D3E4-0334-4CDD-8A9B-3AE3C6CB57D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D9D3E4-0334-4CDD-8A9B-3AE3C6CB57D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D9D3E4-0334-4CDD-8A9B-3AE3C6CB57D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D9D3E4-0334-4CDD-8A9B-3AE3C6CB57D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB0C3811-9280-4D77-85BE-39931D6C4286}
+	EndGlobalSection
+EndGlobal
