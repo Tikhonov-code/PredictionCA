@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,10 +111,10 @@ namespace CalvingPredict
                 //Calving prediction for the next 24 hours for cow<animal_ID>.
                 //Probability < Prob in %>.Missing data < missing_data in %>.
 
-                msg = GetFarmNameByBolusID(item.bolus_id) + ". " + predict_date + "\r\n" +
+                msg = GetFarmNameByBolusID(item.bolus_id) + ". " + predict_date.ToString("MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture) + "\r\n" +
                     "Calving prediction for the next 24 hours for cow #" + item.animal_id.Value + "\r\n" +
-                    "Probability " + string.Format("{0:0.##}%", result) +
-                    ".Missing data " + string.Format("{0:0.##}%", (1 - missing_gaps) * 100) + "\r\n";
+                    "Probability " + string.Format("{0:0.##}%", result*100) +
+                    ". Missing data " + string.Format("{0:0.##}%", (1 - missing_gaps) * 100) + "\r\n\r\n";
             }
             else
             {
@@ -121,10 +122,10 @@ namespace CalvingPredict
                 //INCREASED calving prediction for the next 24 hours for cow<animal_ID>.
                 //Probability from < Prob in % last > to < Porb in % new>.
                 //Missing data < missing_data in %>.
-                msg = GetFarmNameByBolusID(item.bolus_id) + ". " + predict_date + "\r\n" +
+                msg = GetFarmNameByBolusID(item.bolus_id) + ". " + predict_date.ToString("MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture) + "\r\n" +
                     "INCREASED calving prediction for the next 24 hours for cow #" + item.animal_id.Value + "\r\n" +
-                    "Probability from " + string.Format("{0:0.##}%", lastprob) +" to "+ string.Format("{0:0.##}%", result)+
-                    ".Missing data " + string.Format("{0:0.##}%", (1 - missing_gaps) * 100) + "\r\n";
+                    "Probability from " + string.Format("{0:0.##}%", lastprob*100) +" to "+ string.Format("{0:0.##}%", result*100)+
+                    ". Missing data " + string.Format("{0:0.##}%", (1 - missing_gaps) * 100) + "\r\n\r\n";
             }
             return msg;
         }
